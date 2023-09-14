@@ -41,7 +41,7 @@ export default function Home() {
         src="https://developers.kakao.com/sdk/js/kakao.js"
         defer
         onLoad={() => {
-          window.Kakao.init("415ff0d74e624ad61200e4419e2d3064");
+          window.Kakao.init(process.env.NEXT_PUBLIC_JAVASCRIPT_SDK);
         }}
       ></Script>
       <Image
