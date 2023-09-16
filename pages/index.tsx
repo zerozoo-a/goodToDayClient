@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Home() {
   function loginWithKakao() {
     window.Kakao.Auth.authorize({
-      redirectUri: `${window.location.origin}/res_login`,
+      redirectUri: `${window.location.origin}/${process.env.NEXT_PUBLIC_KAKAO_LOGIN_RES}`,
     });
   }
 
