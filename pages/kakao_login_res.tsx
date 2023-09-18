@@ -4,9 +4,16 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 async function tryLogin(body: { code: string; domain: string }) {
-  const res1 = await axios.post("/api/proxy/auth/kakao_login", {
-    body: JSON.stringify(body),
-  });
+  try {
+    const response = await axios.post("/api/proxy/auth/kakao_login", {
+      body: JSON.stringify(body),
+    });
+    if (response.status === 200) {
+      console.info("message from server: ", response.data.message);
+    }
+  } catch (e) {
+    alert(e.message);
+  }
 }
 
 export default function KaKaoCallBack() {
@@ -23,7 +30,6 @@ export default function KaKaoCallBack() {
           code,
           domain: window.location.origin,
         };
-        console.log("🚀 ~ file: kakao_login_res.tsx:29 ~ body:", body);
         await tryLogin(body);
       }
     })();

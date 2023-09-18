@@ -5,9 +5,8 @@ export default async function kakaoLogin(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("req", req.body);
-  const { data } = await axios.post("http://localhost:5050/auth/login", {
+  const { data } = await axios.post("http://localhost:5050/auth/kakaoLogin", {
     body: req.body,
   });
-  res.json({ data });
+  res.json({ ...data });
 }
