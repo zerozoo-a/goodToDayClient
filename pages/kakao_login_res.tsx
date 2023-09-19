@@ -2,14 +2,26 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
+import { KakaoLoginResponse } from "./api/proxy/auth/kakao_login";
+import cookieCutter from "cookie-cutter";
 
-async function tryLogin(body: { code: string; domain: string }) {
+async function tryLogin(
+  body: { code: string; domain: string },
+  router: AppRouterInstance
+) {
   try {
-    const response = await axios.post("/api/proxy/auth/kakao_login", {
-      body: JSON.stringify(body),
-    });
+    const response = await axios.post<KakaoLoginResponse>(
+      "/api/proxy/auth/kakao_login",
+      {
+        body: JSON.stringify(body),
+      }
+    );
     if (response.status === 200) {
+      console.log("🚀 ~ file: kakao_login_res.tsx:20 ~ response:", response);
+      cookieCutter.set("kakaoToken", response.data.accessToken);
       console.info("message from server: ", response.data.message);
+      // router.push("/dashboard");
     }
   } catch (e) {
     alert(e.message);
@@ -30,10 +42,10 @@ export default function KaKaoCallBack() {
           code,
           domain: window.location.origin,
         };
-        await tryLogin(body);
+        await tryLogin(body, router);
       }
     })();
   }, [searchParams]);
 
-  return <div>result of kakao login</div>;
+  return <div>로그인 중...</div>;
 }
