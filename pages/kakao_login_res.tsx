@@ -3,7 +3,10 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
-import { KakaoLoginResponse } from "./api/proxy/auth/kakao_login";
+import {
+  KakaoLoginResponse,
+  LoginResponse,
+} from "./api/proxy/auth/kakao_login";
 import cookieCutter from "cookie-cutter";
 
 async function tryLogin(
@@ -11,7 +14,7 @@ async function tryLogin(
   router: AppRouterInstance
 ) {
   try {
-    const response = await axios.post<KakaoLoginResponse>(
+    const response = await axios.post<LoginResponse<KakaoLoginResponse>>(
       "/api/proxy/auth/kakao_login",
       {
         body: JSON.stringify(body),
@@ -19,9 +22,9 @@ async function tryLogin(
     );
     if (response.status === 200) {
       console.log("🚀 ~ file: kakao_login_res.tsx:20 ~ response:", response);
-      cookieCutter.set("kakaoToken", response.data.accessToken);
+      cookieCutter.set("kakaoToken", response.data.domain.access_token);
       console.info("message from server: ", response.data.message);
-      // router.push("/dashboard");
+      router.push("/dashboard");
     }
   } catch (e) {
     alert(e.message);

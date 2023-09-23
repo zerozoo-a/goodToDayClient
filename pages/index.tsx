@@ -3,9 +3,14 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div>
-      <h1>this is home title</h1>
+      <h1>HOME TITLE</h1>
       <div>
-        <Link href="/dashboard/login">go to login</Link>
+        <h2>LINKS</h2>
+        <ul>
+          <li>
+            <Link href="/dashboard">dash board</Link>
+          </li>
+        </ul>
       </div>
     </div>
   );
