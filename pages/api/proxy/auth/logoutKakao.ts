@@ -5,14 +5,18 @@ export default async function logoutKakao(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { data } = await axios.post<Response>(
-    "http://localhost:5050/auth/logoutKakao",
-    {},
-    {
-      headers: {
-        authorized: `Bearer ${req.headers.authorized}`,
-      },
-    }
-  );
-  res.json({ a: 1 });
+  try {
+    await axios.post<Response>(
+      "http://localhost:5050/auth/logoutKakao",
+      {},
+      {
+        headers: {
+          authorized: `Bearer ${req.headers.authorized}`,
+        },
+      }
+    );
+    res.json({ done: true });
+  } catch (err) {
+    res.json({ done: false });
+  }
 }

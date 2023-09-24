@@ -22,8 +22,6 @@ async function logOutKakao(
 ) {
   e.preventDefault();
   const url = "api/proxy/auth/logoutKakao";
-
-  console.log("🚀 ~ file: kakaoLogout.client.tsx:31 ~ token:", token);
   await fetch(url, {
     method: "POST",
     headers: {
