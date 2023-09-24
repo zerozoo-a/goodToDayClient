@@ -17,17 +17,16 @@ async function tryLogin(
     const response = await axios.post<LoginResponse<KakaoLoginResponse>>(
       "/api/proxy/auth/kakao_login",
       {
-        body: JSON.stringify(body),
+        body,
       }
     );
     if (response.status === 200) {
-      console.log("🚀 ~ file: kakao_login_res.tsx:20 ~ response:", response);
-      cookieCutter.set("kakaoToken", response.data.domain.access_token);
-      console.info("message from server: ", response.data.message);
-      router.push("/dashboard");
+      cookieCutter.set("kakaoToken", response.data.domain.auth.access_token);
+      cookieCutter.set("houseToken", response.data.accessToken);
+      router.push(response.data.redirectURL);
     }
   } catch (e) {
-    alert(e.message);
+    console.error(e);
   }
 }
 
@@ -41,11 +40,13 @@ export default function KaKaoCallBack() {
 
     (async () => {
       if (code) {
-        const body = {
-          code,
-          domain: window.location.origin,
-        };
-        await tryLogin(body, router);
+        await tryLogin(
+          {
+            code,
+            domain: window.location.origin,
+          },
+          router
+        );
       }
     })();
   }, [searchParams]);

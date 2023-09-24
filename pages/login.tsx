@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div>
       <Script
-        id="kakaoLogin"
+        id="loginKakao"
         strategy="afterInteractive"
         src="https://developers.kakao.com/sdk/js/kakao.js"
         defer

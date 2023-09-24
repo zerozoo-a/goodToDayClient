@@ -2,7 +2,7 @@
 import Script from "next/script";
 import Image from "next/image";
 
-export default function KakaoLogin() {
+export default function LoginKakao() {
   function loginUsingKakao() {
     window.Kakao.Auth.authorize({
       redirectUri: `${window.location.origin}/${process.env.NEXT_PUBLIC_KAKAO_LOGIN_RES}`,
@@ -12,7 +12,7 @@ export default function KakaoLogin() {
   return (
     <div>
       <Script
-        id="kakaoLogin"
+        id="loginKakao"
         strategy="afterInteractive"
         src="https://developers.kakao.com/sdk/js/kakao.js"
         defer
