@@ -1,5 +1,5 @@
 import LoginKakao from "../../../components/auth/kakaoLogin.client";
 
-export default function Login() {
+export default function Page() {
   return <LoginKakao />;
 }

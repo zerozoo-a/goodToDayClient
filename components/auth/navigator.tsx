@@ -18,17 +18,12 @@ export default async function Navigator() {
 
   const kakaoResponse: KakaoLoginInfoResponse | undefined =
     await queryKakaoLoginInfo(token);
-  console.log(
-    "🚀 ~ file: navigator.tsx:20 ~ Navigator ~ kakaoResponse:",
-    kakaoResponse
-  );
 
-  if (!kakaoResponse) return <Login />;
+  if (!kakaoResponse) return <div>서버에 문제가 생겼습니다.</div>;
 
   const isAvailableToken = kakaoResponse.expires_in > 60;
 
-  if (isAvailableToken)
-    return <KakaoLogout token={token} kakaoResponse={kakaoResponse} />;
+  if (isAvailableToken) return <KakaoLogout token={token} />;
   return <a href="/dashboard/login">login</a>;
 }
 
@@ -46,7 +41,6 @@ async function queryKakaoLoginInfo(token: RequestCookie) {
 
     return data;
   } catch (err) {
-    console.error(err);
     return undefined;
   }
 }

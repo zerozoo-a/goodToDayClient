@@ -4,25 +4,25 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import {
-  KakaoLoginResponse,
+  KakaoLoginResponseDomain,
   LoginResponse,
-} from "./api/proxy/auth/kakao_login";
-import cookieCutter from "cookie-cutter";
+} from "./api/proxy/auth/loginKakao";
+// import cookieCutter from "cookie-cutter";
 
 async function tryLogin(
   body: { code: string; domain: string },
   router: AppRouterInstance
 ) {
   try {
-    const response = await axios.post<LoginResponse<KakaoLoginResponse>>(
-      "/api/proxy/auth/kakao_login",
+    const response = await axios.post<LoginResponse<KakaoLoginResponseDomain>>(
+      "/api/proxy/auth/loginKakao",
       {
         body,
       }
     );
     if (response.status === 200) {
-      cookieCutter.set("kakaoToken", response.data.domain.auth.access_token);
-      cookieCutter.set("houseToken", response.data.accessToken);
+      // cookieCutter.set("kakaoToken", response.data.domain.auth.access_token);
+      // cookieCutter.set("houseToken", response.data.accessToken);
       router.push(response.data.redirectURL);
     }
   } catch (e) {
