@@ -5,7 +5,7 @@ import KakaoLogout from "./kakaoLogout.client";
 const Login = () => {
   return (
     <div>
-      <a href="/dashboard/login">login</a>
+      <a href="/auth/login">login</a>
     </div>
   );
 };

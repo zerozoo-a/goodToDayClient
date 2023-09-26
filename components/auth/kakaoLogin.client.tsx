@@ -10,7 +10,7 @@ export default function LoginKakao() {
   }
 
   return (
-    <div>
+    <>
       <Script
         id="loginKakao"
         strategy="afterInteractive"
@@ -27,7 +27,7 @@ export default function LoginKakao() {
         alt="Picture of the author"
         onClick={loginUsingKakao}
       />
-    </div>
+    </>
   );
 }
 

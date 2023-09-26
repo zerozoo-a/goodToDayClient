@@ -1,4 +1,38 @@
-import axios from "axios";
+"use server";
+import { cookies } from "next/headers";
+import { Params } from "../../../../../types";
+import { NextResponse } from "next/server";
+
+export async function commonAction() {
+  cookies().set({
+    name: "commonAction",
+    value: "I was set via some mechanism calling a server action",
+    httpOnly: true,
+  });
+
+  return Promise.resolve({
+    commonNow: Date.now(),
+  });
+}
+
+export async function PostLoginKakao(params: Params, domain: string) {
+  const endPoint = "http://localhost:5050/auth/loginKakao";
+  const body = JSON.stringify({
+    code: params.searchParams?.code,
+    domain,
+    redirectURI: process.env.NEXT_PUBLIC_KAKAO_LOGIN_RES,
+  });
+
+  const response = await fetch(endPoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  });
+  const result: LoginResponseKakao = await response.json();
+  return result;
+}
 
 export type LoginResponseKakao = LoginResponse<KakaoLoginResponseDomain>;
 
@@ -49,38 +83,4 @@ interface KakaoUserInfo {
   id: number;
   kakao_account: KakaoAccount;
   properties: KakaoProperties;
-}
-
-export default async function loginKakao(req, res: Response) {
-  const { data } = await axios.post<LoginResponseKakao>(
-    "http://localhost:5050/auth/loginKakao",
-    { data: JSON.stringify({ ...req.body }) }
-  );
-
-  // const cookieStore = cookies();
-
-  // cookieStore.set("kakaoToken", data.domain.auth.access_token);
-  // cookieStore.set("houseToken", data.accessToken);
-
-  // const response = NextResponse.next();
-
-  // response.cookies.set({
-  //   name: "kakaoToken",
-  //   value: data.domain.auth.access_token,
-  // });
-  // response.cookies.set({
-  //   name: "houseToken",
-  //   value: data.accessToken,
-  // });
-  // return response;
-  res.headers;
-  //   res.setHeader(
-  //     "Set-Cookie",
-  //     `kakaoToken=${data.domain.auth.access_token}; path=/; httpOnly=true;`
-  //   );
-  //   res.setHeader(
-  //     "Set-Cookie",
-  //     `houseToken=${data.accessToken}; path=/; httpOnly=true;`
-  //   );
-  //   res.status(200).json({ ...data });
 }
