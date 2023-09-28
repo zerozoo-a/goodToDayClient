@@ -12,7 +12,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <h1>DASH BOARD</h1>
+        <h1>
+          <a href="/">DASH BOARD</a>
+        </h1>
         <Navigator />
         {children}
       </body>
