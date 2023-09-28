@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { LoginResponseKakao } from "../../app/api/proxy/auth/kakao/actions";
-import { redirect } from "next/navigation";
+import { setKakaoTokenCookies } from "../../app/auth/kakao/actions/setKakaoTokenCoookie.action";
+import { LoginResponseKakao } from "../../types/auth";
 
 export default function CLogInKakao({
   loginResponseKakao,
@@ -13,11 +13,14 @@ export default function CLogInKakao({
     loginResponseKakao: LoginResponseKakao
   ) => Promise<void>;
 }) {
+  // const router = useRouter();
+
   useEffect(() => {
     (async () => {
       try {
         await setKakaoTokenCookies(loginResponseKakao);
-        redirect("/");
+        alert("로그인 되었습니다.");
+        // router.push("/");
       } catch (err) {
         console.error(err);
       }
