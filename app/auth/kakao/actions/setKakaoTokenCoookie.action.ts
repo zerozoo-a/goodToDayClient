@@ -11,8 +11,12 @@ async function setKakaoTokenCookies(loginResponseKakao: LoginResponseKakao) {
 }
 
 async function deleteKakaoTokenCookies() {
-  cookies().delete("kakaoToken");
-  cookies().delete("houseToken");
+  try {
+    cookies().delete("kakaoToken");
+    cookies().delete("houseToken");
+  } catch (err) {
+    console.error("Error deleting kakao token" + err);
+  }
 }
 
 export { setKakaoTokenCookies, deleteKakaoTokenCookies };

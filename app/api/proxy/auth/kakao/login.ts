@@ -1,6 +1,5 @@
 "use server";
 import { Params } from "../../../../../types";
-import { NextResponse } from "next/server";
 import { LoginResponseKakao } from "../../../../../types/auth";
 
 export async function loginKakao(params: Params, domain: string) {

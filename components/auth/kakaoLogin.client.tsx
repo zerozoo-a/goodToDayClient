@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { setKakaoTokenCookies } from "../../app/auth/kakao/actions/setKakaoTokenCoookie.action";
 import { LoginResponseKakao } from "../../types/auth";
+import { useRouter } from "next/navigation";
 
 export default function CLogInKakao({
   loginResponseKakao,
@@ -13,14 +14,13 @@ export default function CLogInKakao({
     loginResponseKakao: LoginResponseKakao
   ) => Promise<void>;
 }) {
-  // const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
       try {
         await setKakaoTokenCookies(loginResponseKakao);
-        alert("로그인 되었습니다.");
-        // router.push("/");
+        router.push("/");
       } catch (err) {
         console.error(err);
       }
