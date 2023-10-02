@@ -2,19 +2,19 @@
 
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies } from "next/headers";
-import KakaoLogout from "./kakaoLogout.client";
 import {
   KakaoLoginInfoResponse,
   queryKakaoLoginInfo,
 } from "../../app/api/proxy/auth/kakao/user";
-import { GoTo } from "./goTo.server";
 import { logoutKakao } from "../../app/api/proxy/auth/kakao/logout";
+import KakaoLogout from "../auth/kakaoLogout.client";
+import { GoTo } from "../auth/goTo.server";
 
-export default async function Navigator() {
+export default async function Login() {
   const cookieStore = cookies();
   const token = cookieStore.get("kakaoToken");
 
-  if (token === undefined) return <GoTo to={"/"} title={"login"} />;
+  if (token === undefined) return <GoTo to={"/auth/login"} title={"login"} />;
 
   const kakaoResponse: KakaoLoginInfoResponse | undefined =
     await queryKakaoLoginInfo(token);
@@ -25,5 +25,5 @@ export default async function Navigator() {
 
   if (isAvailableToken)
     return <KakaoLogout token={token} logoutKakao={logoutKakao} />;
-  return <GoTo to={"/"} title={"login"} />;
+  return <GoTo to={"/auth/login"} title={"login"} />;
 }
