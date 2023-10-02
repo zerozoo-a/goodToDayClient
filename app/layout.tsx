@@ -15,7 +15,9 @@ export default function RootLayout({
         <h1>
           <a href="/">DASH BOARD</a>
         </h1>
-        <Navigator />
+        <div>
+          <Navigator />
+        </div>
         {children}
       </body>
     </html>

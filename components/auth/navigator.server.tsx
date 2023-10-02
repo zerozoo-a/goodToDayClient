@@ -7,14 +7,14 @@ import {
   KakaoLoginInfoResponse,
   queryKakaoLoginInfo,
 } from "../../app/api/proxy/auth/kakao/user";
-import { GoToLogin } from "./goToLogin.server";
+import { GoTo } from "./goTo.server";
 import { logoutKakao } from "../../app/api/proxy/auth/kakao/logout";
 
 export default async function Navigator() {
   const cookieStore = cookies();
   const token = cookieStore.get("kakaoToken");
 
-  if (token === undefined) return <GoToLogin />;
+  if (token === undefined) return <GoTo to={"/"} title={"login"} />;
 
   const kakaoResponse: KakaoLoginInfoResponse | undefined =
     await queryKakaoLoginInfo(token);
@@ -25,5 +25,5 @@ export default async function Navigator() {
 
   if (isAvailableToken)
     return <KakaoLogout token={token} logoutKakao={logoutKakao} />;
-  return <GoToLogin />;
+  return <GoTo to={"/"} title={"login"} />;
 }
