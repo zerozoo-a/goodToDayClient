@@ -1,6 +1,6 @@
 "use server";
 
-import { deleteKakaoTokenCookies } from "../../../../auth/kakao/actions/setKakaoTokenCoookie.action";
+import { deleteKakaoTokenCookies } from "../../../../auth/kakao/actions/setKakaoTokenCookie.action";
 
 export async function logoutKakao(token: string) {
   const endPoint = "http://localhost:5050/auth/logoutKakao";
@@ -12,7 +12,6 @@ export async function logoutKakao(token: string) {
     },
   });
   const result: LogoutKakaoResponse = await response.json();
-  console.log("🚀 ~ file: logout.ts:19 ~ logoutKakao ~ result:", result);
   await deleteKakaoTokenCookies();
   return result;
 }

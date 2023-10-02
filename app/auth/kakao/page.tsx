@@ -4,7 +4,7 @@ import { Params } from "../../../types";
 import { loginKakao } from "../../api/proxy/auth/kakao/login";
 import { redirect } from "next/navigation";
 
-import { setKakaoTokenCookies } from "./actions/setKakaoTokenCoookie.action";
+import { setKakaoTokenCookies } from "./actions/setKakaoTokenCookie.action";
 import { LoginResponseKakao } from "../../../types/auth";
 
 export default async function postLogin(params: Params) {

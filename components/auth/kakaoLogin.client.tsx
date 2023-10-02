@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { setKakaoTokenCookies } from "../../app/auth/kakao/actions/setKakaoTokenCoookie.action";
+import { setKakaoTokenCookies } from "../../app/auth/kakao/actions/setKakaoTokenCookie.action";
 import { LoginResponseKakao } from "../../types/auth";
 import { useRouter } from "next/navigation";
 
