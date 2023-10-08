@@ -1,14 +1,13 @@
 "use server";
-import Login from "./login.server";
 
-export default async function Navigator() {
+export default async function Navigator(props) {
+  const Logo = props.children[0];
+  const Lefts = props.children.toSpliced(0, 1);
+
   return (
-    <nav className="bg-gray-800 py-4">
-      <div className="container mx-auto flex justify-center space-x-4">
-        <div className="text-white hover:text-blue-500">
-          <Login />
-        </div>
-      </div>
+    <nav className="grid grid-cols-6">
+      {Logo}
+      <div className="grid grid-cols-2 col-start-2">{Lefts}</div>
     </nav>
   );
 }

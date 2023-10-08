@@ -6,8 +6,9 @@
     "build": "next build"
   },
   "dependencies": {
+    "@toast-ui/editor": "^3.2.2",
+    "@toast-ui/react-editor": "^3.2.3",
     "axios": "^1.5.1",
-    "cookie-cutter": "^0.2.0",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

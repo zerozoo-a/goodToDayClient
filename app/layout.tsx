@@ -1,5 +1,7 @@
 import Navigator from "../components/navigator/index.server";
-// These styles apply to every route in the application
+import { GoTo } from "../components/auth/goTo.server";
+import Login from "../components/navigator/login.server";
+
 import "./globals.css";
 
 export const metadata = {
@@ -15,11 +17,12 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
-        <h1>
-          <a href="/">DASH BOARD</a>
-        </h1>
         <div className="font-bold underline">
-          <Navigator />
+          <Navigator>
+            <GoTo to={"/"} title="home" />
+            <GoTo to={"/dashboard"} title="게시판" />
+            <Login />
+          </Navigator>
         </div>
         {children}
       </body>
