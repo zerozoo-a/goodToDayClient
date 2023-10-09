@@ -1,8 +1,10 @@
 import Navigator from "../components/navigator/index.server";
 import { GoTo } from "../components/auth/goTo.server";
-import Login from "../components/navigator/login.server";
+import LoginOut from "../components/navigator/loginout.server";
+import { cookies } from "next/headers";
 
 import "./globals.css";
+import SignUpButton from "../components/navigator/signup.server";
 
 export const metadata = {
   title: "딩동댕댕이하우스",
@@ -14,6 +16,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = cookies();
+  const houseToken = cookieStore.get("houseToken") || undefined;
+  const kakaoToken = cookieStore.get("kakaoToken") || undefined;
+
+  const hasToken = houseToken || kakaoToken;
+  const isLogin = hasToken ? false : true;
+
   return (
     <html lang="kr">
       <body>
@@ -21,7 +30,12 @@ export default function RootLayout({
           <Navigator>
             <GoTo to={"/"} title="home" />
             <GoTo to={"/dashboard"} title="게시판" />
-            <Login />
+            <LoginOut
+              isLogin={isLogin}
+              houseToken={houseToken}
+              kakaoToken={kakaoToken}
+            />
+            <SignUpButton />
           </Navigator>
         </div>
         {children}
