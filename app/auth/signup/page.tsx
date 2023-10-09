@@ -1,26 +1,14 @@
+import { createUser } from "./actions/createUser";
+
 export default function SignUp() {
-  async function create(formData: FormData) {
-    "use server";
-    const username = formData.get("username");
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const confirm_password = formData.get("confirm_password");
-
-    // email check || username check from db
-
-    // password === confirm_password check
-
-    // save db
-  }
-
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
         <h2 className="text-2xl font-semibold mb-4">회원가입</h2>
-        <form action={create} method="POST">
+        <form action={createUser} method="POST">
           <div className="mb-4">
             <label
-              htmlFor="username"
+              htmlFor="name"
               className="block text-sm font-medium text-gray-700"
             >
               닉네임:
