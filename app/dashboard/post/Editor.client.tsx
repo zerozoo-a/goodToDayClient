@@ -26,8 +26,12 @@ export default function Post({
     const instance = editorRef.current.getInstance();
     const context = instance.getHTML();
     if (!validateValues({ title, context })) return;
-
-    await postArticle(token, { title, context });
+    try {
+      await postArticle(token, { title, context });
+      alert("글을 작성했습니다.");
+    } catch {
+      alert("글 작성에 실패했습니다.");
+    }
   }
 
   function validateValues({

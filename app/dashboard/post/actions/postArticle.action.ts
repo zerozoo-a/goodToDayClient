@@ -1,13 +1,10 @@
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-// import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 async function postArticle(token: RequestCookie, { title, context }) {
   "use server";
 
-  // const cookieStore = cookies();
-  // const isValidUser = await validateHouseToken(token);
-
-  await fetch(`${process.env.NEXT_PUBLIC_SERVER}board`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}board`, {
     method: "POST",
     headers: {
       access_token: token.value,
@@ -15,6 +12,9 @@ async function postArticle(token: RequestCookie, { title, context }) {
     },
     body: JSON.stringify({ title, context }),
   });
+
+  const result: Result = await response.json();
+  redirect(result.data.redirect);
 }
 
 type PostArticle = typeof postArticle;
@@ -39,3 +39,9 @@ type ValidateHouseToken = typeof validateHouseToken;
 
 export { postArticle, validateHouseToken };
 export type { PostArticle, ValidateHouseToken };
+
+export interface Result<T = any, K = any> {
+  success: boolean;
+  data: T;
+  err?: K;
+}
