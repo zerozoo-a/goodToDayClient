@@ -1,7 +1,7 @@
 "use client";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
-import { ChangeEvent, createRef, useState } from "react";
+import { ChangeEvent, RefObject, createRef, useState } from "react";
 
 export default function Post() {
   const editorRef = createRef<any>();
@@ -14,7 +14,7 @@ export default function Post() {
     ["scrollSync"],
   ];
 
-  async function handleOnClick() {
+  function handleOnClick(editorRef: RefObject<any>, title: string) {
     const instance = editorRef.current.getInstance();
     const context = instance.getHTML();
     if (validateValues({ title, context })) return;
@@ -44,13 +44,9 @@ export default function Post() {
     if (title && context) return true;
   }
 
-  function handleTitleOnChange(event: ChangeEvent<HTMLInputElement>) {
-    setTitle(event.target.value);
-  }
-
   return (
     <div className="p-4">
-      <TitleInput handleTitleOnChange={handleTitleOnChange} />
+      <TitleInput setTitle={setTitle} />
       <Editor
         // @ts-ignore
         ref={editorRef}
@@ -65,12 +61,12 @@ export default function Post() {
         toolbarItems={toolbarItems}
         initialValue=" "
       />
-      <button onClick={handleOnClick}>글쓰기</button>
+      <button onClick={() => handleOnClick(editorRef, title)}>글쓰기</button>
     </div>
   );
 }
 
-function TitleInput({ handleTitleOnChange }) {
+function TitleInput({ setTitle }) {
   return (
     <div className="py-4">
       <label htmlFor="title" className="text-gray-600">
@@ -81,7 +77,7 @@ function TitleInput({ handleTitleOnChange }) {
         id="title"
         className="border rounded-lg px-3 py-2 w-full"
         placeholder="Enter a title"
-        onChange={(e) => handleTitleOnChange(e)}
+        onChange={(e) => setTitle(e.target.value)}
       />
     </div>
   );
