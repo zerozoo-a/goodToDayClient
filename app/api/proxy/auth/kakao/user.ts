@@ -1,6 +1,6 @@
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
-export async function queryKakaoLoginInfo(token: RequestCookie) {
+export async function getKakaoLoginInfo(token: RequestCookie) {
   try {
     const url = "http://localhost:5050/auth/loginKakaoInfo";
     const response = await fetch(url, {

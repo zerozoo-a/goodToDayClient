@@ -61,7 +61,7 @@ export default function Post() {
         toolbarItems={toolbarItems}
         initialValue=" "
       />
-      <button onClick={() => handleOnClick(editorRef, title)}>글쓰기</button>
+      <button onClick={() => handleOnClick(editorRef, title)}>작성하기</button>
     </div>
   );
 }

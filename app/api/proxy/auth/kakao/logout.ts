@@ -8,7 +8,7 @@ export async function logoutKakao(token: string) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      access_token: token,
+      access_token: `Bearer ${token}`,
     },
   });
   const result: LogoutKakaoResponse = await response.json();
