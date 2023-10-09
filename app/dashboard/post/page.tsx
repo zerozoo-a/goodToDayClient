@@ -4,8 +4,8 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import { postArticle } from "./actions/postArticle.action";
-const Editor = dynamic(() => import("./editor.client"), { ssr: false });
 
+const Editor = dynamic(() => import("./editor.client"), { ssr: false });
 export default async function Post() {
   const cookieStore = cookies();
   const token = cookieStore.get("houseToken");
