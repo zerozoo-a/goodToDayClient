@@ -1,6 +1,5 @@
 "use server";
 
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies } from "next/headers";
 import {
   KakaoLoginInfoResponse,
@@ -13,7 +12,6 @@ import { GoTo } from "../auth/goTo.server";
 export default async function Login() {
   const cookieStore = cookies();
   const token = cookieStore.get("kakaoToken");
-  console.log("🚀 ~ file: login.server.tsx:16 ~ Login ~ token:", token);
 
   if (token === undefined || token.value === "")
     return <GoTo to={"/auth/login"} title={"login"} />;

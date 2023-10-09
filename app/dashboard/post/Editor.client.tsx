@@ -1,9 +1,17 @@
 "use client";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
-import { ChangeEvent, RefObject, createRef, useState } from "react";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { RefObject, createRef, useState } from "react";
+import type { PostArticle } from "./actions/postArticle.action";
 
-export default function Post() {
+export default function Post({
+  token,
+  postArticle,
+}: {
+  token: RequestCookie;
+  postArticle: PostArticle;
+}) {
   const editorRef = createRef<any>();
   const [title, setTitle] = useState<string>("");
   const toolbarItems = [
@@ -14,10 +22,21 @@ export default function Post() {
     ["scrollSync"],
   ];
 
-  function handleOnClick(editorRef: RefObject<any>, title: string) {
+  async function handleOnClick(editorRef: RefObject<any>, title: string) {
     const instance = editorRef.current.getInstance();
     const context = instance.getHTML();
-    if (validateValues({ title, context })) return;
+    if (!validateValues({ title, context })) return;
+    console.log("hi", process.env.NEXT_PUBLIC_SERVER);
+
+    await postArticle(token, { title, context });
+    // await fetch(`${process.env.NEXT_PUBLIC_SERVER}board`, {
+    //   method: "POST",
+    //   headers: {
+    //     Authorization: `Bearer ${token.value}`,
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ title, context }),
+    // });
   }
 
   function validateValues({
@@ -27,6 +46,8 @@ export default function Post() {
     title?: string | void;
     context?: string;
   }) {
+    console.log("🚀 ~ file: Editor.client.tsx:48 ~ context:", context);
+    console.log("🚀 ~ file: Editor.client.tsx:48 ~ title:", title);
     if (!title) {
       alert("제목을 입력해주세요");
       return false;
@@ -40,6 +61,7 @@ export default function Post() {
       alert("본문을 입력해주세요");
       return false;
     }
+    console.log("hola~?");
 
     if (title && context) return true;
   }

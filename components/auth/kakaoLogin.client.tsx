@@ -5,7 +5,7 @@ import { setKakaoTokenCookies } from "../../app/auth/kakao/actions/setKakaoToken
 import { LoginResponseKakao } from "../../types/auth";
 import { useRouter } from "next/navigation";
 
-export default function CLogInKakao({
+export default function LoginKakao({
   loginResponseKakao,
   setKakaoTokenCookies,
 }: {
