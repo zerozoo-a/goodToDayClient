@@ -15,8 +15,8 @@ export default function SignUp() {
             </label>
             <input
               type="text"
-              id="username"
-              name="username"
+              id="name"
+              name="name"
               required
               className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring focus:ring-indigo-200 focus:outline-none"
             />
