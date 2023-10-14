@@ -1,17 +1,13 @@
 "use server";
 
-import { ZodError } from "zod";
-import {
-  FormSchemaError,
-  FormSchemaObject,
-  SignupForm,
-} from "../../../../schema/signup.form";
+import { ZodError, ZodIssue } from "zod";
+import { FormSchemaObject, SignupForm } from "../../../../schema/signup.form";
 import { Result } from "../../../dashboard/post/actions/postArticle.action";
 
 export async function createUser(
   prevState: any,
   formData: FormData
-): Promise<Result | FormSchemaError> {
+): Promise<Result | Result<undefined, ZodIssue[]>> {
   const resultOfRuntimeCheck = checkData(FormSchemaObject, formData);
 
   if (resultOfRuntimeCheck instanceof ZodError) {
@@ -43,7 +39,7 @@ export async function createUser(
 function checkData(
   FormSchema: typeof FormSchemaObject,
   formData: FormData
-): SignupForm | FormSchemaError {
+): SignupForm | ZodError {
   try {
     return FormSchema.parse({
       name: formData.get("name"),
@@ -52,6 +48,9 @@ function checkData(
       confirmPassword: formData.get("confirm_password"),
     });
   } catch (err) {
+    if (err instanceof ZodError) {
+      return err;
+    }
     return err;
   }
 }

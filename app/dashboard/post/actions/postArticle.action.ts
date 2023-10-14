@@ -43,5 +43,5 @@ export type { PostArticle, ValidateHouseToken };
 export interface Result<T = any, K = any> {
   success: boolean;
   data: T;
-  err?: K;
+  err: K;
 }

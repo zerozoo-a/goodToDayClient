@@ -1,7 +1,6 @@
-import { ZodError, z } from "zod";
+import { z } from "zod";
 type SignupForm = z.infer<typeof FormSchemaObject>;
 type FormSchema = typeof FormSchemaObject;
-class FormSchemaError extends ZodError<FormSchema> {}
 
 const FormSchemaObject = z
   .object({
@@ -22,4 +21,4 @@ const FormSchemaObject = z
   });
 
 export type { SignupForm, FormSchema };
-export { FormSchemaObject, FormSchemaError };
+export { FormSchemaObject };

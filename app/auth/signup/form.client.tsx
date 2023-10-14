@@ -4,10 +4,25 @@ import { createUser } from "./actions/createUser";
 
 import { experimental_useFormState as useFormState } from "react-dom";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
+import { Result } from "../../dashboard/post/actions/postArticle.action";
+import { ZodError, ZodIssue } from "zod";
+
+function isError(state: State): boolean {
+  if (state === undefined) return false;
+  if (state !== undefined && state.success) return false;
+  return true;
+}
+
+type State = undefined | Result | Result<undefined, ZodIssue[]>;
 
 export function SignUpForm() {
-  const [state, formAction] = useFormState(createUser);
+  const [state, formAction]: [
+    undefined | Result | Result<undefined, ZodIssue[]>,
+    any
+  ] = useFormState(createUser);
   console.log("🚀 ~ file: form.client.tsx:14 ~ SignUpForm ~ state:", state);
+  //     const m = state.err instanceof ZodError ? new Map([state.err])
+  //   state.err[0].
 
   return (
     <form action={formAction} method="POST">
@@ -25,6 +40,7 @@ export function SignUpForm() {
           required
           className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring focus:ring-indigo-200 focus:outline-none"
         />
+        {/* {isError(state) && } */}
       </div>
       <div className="mb-4">
         <label
@@ -93,6 +109,4 @@ function SubmitButton() {
   );
 }
 
-// function PoliteMessage(err: ) {
-
-// }
+// function PoliteMessage(err) {}
