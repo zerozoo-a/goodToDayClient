@@ -5,24 +5,26 @@ import { createUser } from "./actions/createUser";
 import { experimental_useFormState as useFormState } from "react-dom";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import { Result } from "../../dashboard/post/actions/postArticle.action";
-import { ZodError, ZodIssue } from "zod";
-
-function isError(state: State): boolean {
-  if (state === undefined) return false;
-  if (state !== undefined && state.success) return false;
-  return true;
-}
-
-type State = undefined | Result | Result<undefined, ZodIssue[]>;
+import { ZodIssue } from "zod";
 
 export function SignUpForm() {
   const [state, formAction]: [
     undefined | Result | Result<undefined, ZodIssue[]>,
     any
   ] = useFormState(createUser);
-  console.log("🚀 ~ file: form.client.tsx:14 ~ SignUpForm ~ state:", state);
-  //     const m = state.err instanceof ZodError ? new Map([state.err])
-  //   state.err[0].
+
+  const errorMessageMap: undefined | { [k: string]: ZodIssue } = isError(state)
+    ? state?.err.reduce((acc, cur) => {
+        const key = cur.path[0];
+
+        if (acc[key]) {
+          acc[key] = { ...acc[key], ...cur };
+        } else {
+          acc[key] = cur;
+        }
+        return acc;
+      }, {})
+    : undefined;
 
   return (
     <form action={formAction} method="POST">
@@ -40,7 +42,7 @@ export function SignUpForm() {
           required
           className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring focus:ring-indigo-200 focus:outline-none"
         />
-        {/* {isError(state) && } */}
+        <PoliteMessage message={errorMessageMap?.name?.message} />
       </div>
       <div className="mb-4">
         <label
@@ -56,6 +58,7 @@ export function SignUpForm() {
           required
           className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring focus:ring-indigo-200 focus:outline-none"
         />
+        <PoliteMessage message={errorMessageMap?.email?.message} />
       </div>
       <div className="mb-4">
         <label
@@ -71,6 +74,7 @@ export function SignUpForm() {
           required
           className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring focus:ring-indigo-200 focus:outline-none"
         />
+        <PoliteMessage message={errorMessageMap?.password?.message} />
       </div>
       <div className="mb-4">
         <label
@@ -86,6 +90,7 @@ export function SignUpForm() {
           required
           className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring focus:ring-indigo-200 focus:outline-none"
         />
+        {<PoliteMessage message={errorMessageMap?.confirmPassword?.message} />}
       </div>
       <div className="mt-6">
         <SubmitButton />
@@ -109,4 +114,19 @@ function SubmitButton() {
   );
 }
 
-// function PoliteMessage(err) {}
+function PoliteMessage({ message }: { message: string | undefined }) {
+  if (undefined) return "";
+  return (
+    <p aria-live="polite" className="text-red-500">
+      {message}
+    </p>
+  );
+}
+
+function isError(state: State): boolean {
+  if (state === undefined) return false;
+  if (state !== undefined && state.success) return false;
+  return true;
+}
+
+type State = undefined | Result | Result<undefined, ZodIssue[]>;
