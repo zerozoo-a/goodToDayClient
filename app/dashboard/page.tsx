@@ -8,8 +8,8 @@ export default async function Page() {
       <div>this is dash board page</div>
       <div>
         <ul>
-          {posts.data.map((post) => (
-            <li>
+          {posts.data.map((post, i) => (
+            <li key={`${post}_${i}`}>
               <div>
                 <h4>제목: {post.title}</h4>
                 <div>생성일: {post.created_at}</div>

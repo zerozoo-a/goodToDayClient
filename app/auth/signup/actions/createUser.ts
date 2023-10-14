@@ -1,17 +1,26 @@
 "use server";
 
-export async function createUser(formData: FormData) {
-  const name = formData.get("name");
-  console.log("🚀 ~ file: createUser.ts:7 ~ createUser ~ name:", name);
-  const email = formData.get("email");
-  console.log("🚀 ~ file: createUser.ts:8 ~ createUser ~ email:", email);
-  const password = formData.get("password");
-  console.log("🚀 ~ file: createUser.ts:9 ~ createUser ~ password:", password);
-  const confirm_password = formData.get("confirm_password");
-  console.log(
-    "🚀 ~ file: createUser.ts:10 ~ createUser ~ confirm_password:",
-    confirm_password
-  );
+import { ZodError } from "zod";
+import {
+  FormSchemaError,
+  FormSchemaObject,
+  SignupForm,
+} from "../../../../schema/signup.form";
+import { Result } from "../../../dashboard/post/actions/postArticle.action";
+
+export async function createUser(
+  prevState: any,
+  formData: FormData
+): Promise<Result | FormSchemaError> {
+  const resultOfRuntimeCheck = checkData(FormSchemaObject, formData);
+
+  if (resultOfRuntimeCheck instanceof ZodError) {
+    return {
+      success: false,
+      data: undefined,
+      err: resultOfRuntimeCheck.errors,
+    };
+  }
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER}users/createHouseUser`,
@@ -21,48 +30,28 @@ export async function createUser(formData: FormData) {
       },
       method: "POST",
       body: JSON.stringify({
-        name,
-        email,
-        password,
+        name: resultOfRuntimeCheck.name,
+        email: resultOfRuntimeCheck.email,
+        password: resultOfRuntimeCheck.password,
       }),
     }
   );
-
   const result = await response.json();
-  console.log("🚀 ~ file: createUser.ts:26 ~ createUser ~ result:", result);
+  return result;
+}
 
-  // const [responseOfIsValidEmail, responseOfIsValidName] = await Promise.all([
-  //   fetch(`${process.env.NEXT_PUBLIC_SERVER}users/findBy/email`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ email }),
-  //   }),
-  //   fetch(`${process.env.NEXT_PUBLIC_SERVER}users/findBy/name`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ name }),
-  //   }),
-  // ]);
-
-  // const [resultOfIsValidEmail, resultOfIsValidName]: [
-  //   Result<any[]>,
-  //   Result<any[]>
-  // ] = await Promise.all([
-  //   responseOfIsValidEmail.json(),
-  //   responseOfIsValidName.json(),
-  // ]);
-
-  // if (
-  //   resultOfIsValidEmail.data.length === 0 &&
-  //   resultOfIsValidName.data.length === 0 &&
-  //   password === confirm_password
-  // ) {
-  //   return true;
-  // } else {
-  //   return false;
-  // }
+function checkData(
+  FormSchema: typeof FormSchemaObject,
+  formData: FormData
+): SignupForm | FormSchemaError {
+  try {
+    return FormSchema.parse({
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirm_password"),
+    });
+  } catch (err) {
+    return err;
+  }
 }

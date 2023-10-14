@@ -8,8 +8,8 @@ export default async function Navigator(props) {
   return (
     <nav className={`grid grid-cols-6`}>
       {Logo}
-      {Lefts.map((left) => (
-        <div>{left}</div>
+      {Lefts.map((left, i) => (
+        <div key={`${left}_${i}`}>{left}</div>
       ))}
     </nav>
   );
