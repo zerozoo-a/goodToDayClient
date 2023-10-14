@@ -7,24 +7,27 @@ import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import { Result } from "../../dashboard/post/actions/postArticle.action";
 import { ZodIssue } from "zod";
 
+type ErrorMessageKey = "name" | "email" | "password" | "confirm";
+
 export function SignUpForm() {
   const [state, formAction]: [
     undefined | Result | Result<undefined, ZodIssue[]>,
     any
   ] = useFormState(createUser);
 
-  const errorMessageMap: undefined | { [k: string]: ZodIssue } = isError(state)
-    ? state?.err.reduce((acc, cur) => {
-        const key = cur.path[0];
+  const errorMessageMap: undefined | { [k in ErrorMessageKey]: ZodIssue } =
+    isError(state)
+      ? state?.err?.reduce((acc, cur) => {
+          const key = cur.path[0];
 
-        if (acc[key]) {
-          acc[key] = { ...acc[key], ...cur };
-        } else {
-          acc[key] = cur;
-        }
-        return acc;
-      }, {})
-    : undefined;
+          if (acc[key]) {
+            acc[key] = { ...acc[key], ...cur };
+          } else {
+            acc[key] = cur;
+          }
+          return acc;
+        }, {})
+      : undefined;
 
   return (
     <form action={formAction} method="POST">
@@ -90,7 +93,7 @@ export function SignUpForm() {
           required
           className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring focus:ring-indigo-200 focus:outline-none"
         />
-        {<PoliteMessage message={errorMessageMap?.confirmPassword?.message} />}
+        {<PoliteMessage message={errorMessageMap?.confirm?.message} />}
       </div>
       <div className="mt-6">
         <SubmitButton />
@@ -125,7 +128,7 @@ function PoliteMessage({ message }: { message: string | undefined }) {
 
 function isError(state: State): boolean {
   if (state === undefined) return false;
-  if (state !== undefined && state.success) return false;
+  if (state.success) return false;
   return true;
 }
 

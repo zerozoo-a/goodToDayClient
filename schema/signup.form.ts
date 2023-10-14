@@ -16,7 +16,7 @@ const FormSchemaObject = z
       .min(6, { message: "최소 6 글자 이상으로 비밀번호를 작성해주세요." }),
   })
   .refine((form) => form.password === form.confirmPassword, {
-    message: "비밀번호가 서로 일치하지 않습니다.",
+    message: "비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.",
     path: ["confirm"],
   });
 
