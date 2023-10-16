@@ -1,5 +1,3 @@
-// import { Result } from "../post/actions/postArticle.action";
-
 import { Result } from "../../../util/types";
 
 async function getPosts() {
