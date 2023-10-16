@@ -21,6 +21,24 @@ export async function loginUser(_prevState, formData: FormData) {
       err: resultOfRuntimeCheck.errors,
     };
   }
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER}users/loginHouseUser`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        email: resultOfRuntimeCheck.email,
+        password: resultOfRuntimeCheck.password,
+      }),
+    }
+  );
+  // const token = await dd () ;
+  // set cookie
+  // response
+  // redirect
 }
 
 function checkData(
