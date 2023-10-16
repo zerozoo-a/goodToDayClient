@@ -1,24 +1,18 @@
 "use client";
 
-import { createUser } from "../../app/auth/signup/actions/createUser";
+import { createUser } from "../../app/auth/signup/actions/createHouseUser";
 
 import { experimental_useFormState as useFormState } from "react-dom";
-import { Result } from "../../app/dashboard/post/actions/postArticle.action";
-import { ZodIssue } from "zod";
 import { useRouter } from "next/navigation";
 import { SubmitButton } from "./submitButton.client";
 import { PoliteMessage } from "./politeMessage";
-import { getErrorMessageMap, isStateError } from "../../util/auth/isError";
+import { getErrorMessageMap } from "../../util/auth/isError";
+import { ResponseFromServer } from "../../util/auth/types";
 
 type ErrorMessageKey = "name" | "email" | "password" | "confirm";
-type ResponseFromServer = [
-  undefined | Result | Result<undefined, ZodIssue[]>,
-  any
-];
 
 export function SignUpForm() {
   const [state, action]: ResponseFromServer = useFormState(createUser);
-  // const state = createUser.bind(undefined, {});
   const router = useRouter();
 
   const errorMessageMap = getErrorMessageMap<ErrorMessageKey>(state);
