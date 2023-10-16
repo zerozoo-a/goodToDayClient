@@ -4,8 +4,8 @@ import { ZodError, ZodIssue } from "zod";
 import { FormSchemaObject, SignupForm } from "../../../../schema/signup.form";
 import { Result } from "../../../dashboard/post/actions/postArticle.action";
 
-export async function createUser(
-  _prevState: any,
+export async function loginUser(
+  prevState: any,
   formData: FormData
 ): Promise<Result | Result<undefined, ZodIssue[]>> {
   const resultOfRuntimeCheck = checkData(FormSchemaObject, formData);

@@ -1,13 +1,12 @@
 "use client";
 
-import { createUser } from "./actions/createUser";
+import { createUser } from "../../app/auth/signup/actions/createUser";
 
 import { experimental_useFormState as useFormState } from "react-dom";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
-import { Result } from "../../dashboard/post/actions/postArticle.action";
+import { Result } from "../../app/dashboard/post/actions/postArticle.action";
 import { ZodIssue } from "zod";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 type ErrorMessageKey = "name" | "email" | "password" | "confirm";
 
@@ -17,10 +16,7 @@ export function SignUpForm() {
     any
   ] = useFormState(createUser);
   const router = useRouter();
-
-  useEffect(() => {
-    router.prefetch("/");
-  }, []);
+  router.prefetch("/");
 
   const errorMessageMap: undefined | { [k in ErrorMessageKey]: ZodIssue } =
     isError(state)
