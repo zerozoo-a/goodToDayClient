@@ -1,14 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { SubmitButton } from "./submitButton.client";
+import { loginUser } from "../../app/auth/login/actions/loginUser";
+import { getErrorMessageMap, isStateError } from "../../util/auth/isError";
+import { PoliteMessage } from "./politeMessage";
+
+type ErrorMessageKey = "email" | "password";
 
 export default function HouseLogin() {
   // const router = useRouter();
   // router.prefetch("/");
+  const state = loginUser.bind(null, {});
+  const errorMessageMap = getErrorMessageMap<ErrorMessageKey>(state);
 
   return (
-    <form>
+    <form action={loginUser}>
       <div className="mb-4">
         <label
           htmlFor="email"
@@ -23,7 +30,7 @@ export default function HouseLogin() {
           required
           className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring focus:ring-indigo-200 focus:outline-none"
         />
-        {/* <PoliteMessage message={errorMessageMap?.email?.message} /> */}
+        <PoliteMessage message={errorMessageMap?.email?.message} />
       </div>
       <div className="mb-4">
         <label
@@ -39,7 +46,7 @@ export default function HouseLogin() {
           required
           className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring focus:ring-indigo-200 focus:outline-none"
         />
-        {/* <PoliteMessage message={errorMessageMap?.password?.message} /> */}
+        <PoliteMessage message={errorMessageMap?.password?.message} />
       </div>
 
       <div className="mt-6">

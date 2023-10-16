@@ -8,6 +8,7 @@ import { ZodIssue } from "zod";
 import { useRouter } from "next/navigation";
 import { SubmitButton } from "./submitButton.client";
 import { PoliteMessage } from "./politeMessage";
+import { getErrorMessageMap, isStateError } from "../../util/auth/isError";
 
 type ErrorMessageKey = "name" | "email" | "password" | "confirm";
 
@@ -16,21 +17,10 @@ export function SignUpForm() {
     undefined | Result | Result<undefined, ZodIssue[]>,
     any
   ] = useFormState(createUser);
+  // const state = createUser.bind(undefined, {});
   const router = useRouter();
 
-  const errorMessageMap: undefined | { [k in ErrorMessageKey]: ZodIssue } =
-    isError(state)
-      ? state?.err?.reduce((acc, cur) => {
-          const key = cur.path[0];
-
-          if (acc[key]) {
-            acc[key] = { ...acc[key], ...cur };
-          } else {
-            acc[key] = cur;
-          }
-          return acc;
-        }, {})
-      : undefined;
+  const errorMessageMap = getErrorMessageMap<ErrorMessageKey>(state);
 
   if (errorMessageMap === undefined && state?.success && state.data) {
     router.prefetch("/");
@@ -110,11 +100,3 @@ export function SignUpForm() {
     </form>
   );
 }
-
-function isError(state: State): boolean {
-  if (state === undefined) return false;
-  if (state.success) return false;
-  return true;
-}
-
-type State = undefined | Result | Result<undefined, ZodIssue[]>;
