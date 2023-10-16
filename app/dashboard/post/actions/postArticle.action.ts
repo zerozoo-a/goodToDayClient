@@ -1,5 +1,6 @@
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { redirect } from "next/navigation";
+import { Result } from "../../../../util/types";
 
 async function postArticle(token: RequestCookie, { title, context }) {
   "use server";
@@ -39,9 +40,3 @@ type ValidateHouseToken = typeof validateHouseToken;
 
 export { postArticle, validateHouseToken };
 export type { PostArticle, ValidateHouseToken };
-
-export interface Result<T = any, K = any> {
-  success: boolean;
-  data: T;
-  err: K;
-}

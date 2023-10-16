@@ -1,4 +1,6 @@
-import { Result } from "../post/actions/postArticle.action";
+// import { Result } from "../post/actions/postArticle.action";
+
+import { Result } from "../../../util/types";
 
 async function getPosts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}board`, {

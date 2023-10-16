@@ -1,6 +1,7 @@
 "use client";
 
 // import { useRouter } from "next/navigation";
+import { experimental_useFormState as useFormState } from "react-dom";
 import { SubmitButton } from "./submitButton.client";
 import { loginUser } from "../../app/auth/login/actions/loginUser";
 import { getErrorMessageMap, isStateError } from "../../util/auth/isError";
@@ -11,11 +12,15 @@ type ErrorMessageKey = "email" | "password";
 export default function HouseLogin() {
   // const router = useRouter();
   // router.prefetch("/");
-  const state = loginUser.bind(null, {});
+  const [state, action] = useFormState(loginUser);
+  console.log(
+    "🚀 ~ file: houseLogin.client.tsx:15 ~ HouseLogin ~ state:",
+    state
+  );
   const errorMessageMap = getErrorMessageMap<ErrorMessageKey>(state);
 
   return (
-    <form action={loginUser}>
+    <form action={action}>
       <div className="mb-4">
         <label
           htmlFor="email"

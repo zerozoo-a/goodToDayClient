@@ -1,7 +1,6 @@
-import { ZodError, ZodIssue } from "zod";
-import { Result } from "../../app/dashboard/post/actions/postArticle.action";
+import { ZodIssue } from "zod";
+import { State } from "./types";
 
-type State = undefined | Result | Result<undefined, ZodIssue[]>;
 function isStateError(state: State): boolean {
   if (state === undefined) return false;
   if (state.success) return false;

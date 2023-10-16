@@ -1,20 +1,21 @@
 "use server";
 
-import { ZodError } from "zod";
+import { ZodError, ZodIssue } from "zod";
 import {
   LoginForm,
   LoginFormSchemaObject,
 } from "../../../../schema/login.form";
+import { Result } from "../../../../util/types";
 
 // import { ZodError, ZodIssue } from "zod";
 // import { FormSchemaObject, SignupForm } from "../../../../schema/signup.form";
 // import { Result } from "../../../dashboard/post/actions/postArticle.action";
 
-export async function loginUser(formData: FormData) {
+export async function loginUser(_prevState, formData: FormData) {
   const resultOfRuntimeCheck = checkData(LoginFormSchemaObject, formData);
 
   if (resultOfRuntimeCheck instanceof ZodError) {
-    return {
+    return <Result<undefined, ZodIssue[]>>{
       success: false,
       data: undefined,
       err: resultOfRuntimeCheck.errors,

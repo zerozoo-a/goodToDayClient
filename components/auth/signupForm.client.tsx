@@ -11,12 +11,13 @@ import { PoliteMessage } from "./politeMessage";
 import { getErrorMessageMap, isStateError } from "../../util/auth/isError";
 
 type ErrorMessageKey = "name" | "email" | "password" | "confirm";
+type ResponseFromServer = [
+  undefined | Result | Result<undefined, ZodIssue[]>,
+  any
+];
 
 export function SignUpForm() {
-  const [state, formAction]: [
-    undefined | Result | Result<undefined, ZodIssue[]>,
-    any
-  ] = useFormState(createUser);
+  const [state, action]: ResponseFromServer = useFormState(createUser);
   // const state = createUser.bind(undefined, {});
   const router = useRouter();
 
@@ -29,7 +30,7 @@ export function SignUpForm() {
   }
 
   return (
-    <form action={formAction}>
+    <form action={action}>
       <div className="mb-4">
         <label
           htmlFor="name"
