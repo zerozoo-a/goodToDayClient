@@ -6,6 +6,8 @@ import { experimental_useFormState as useFormState } from "react-dom";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import { Result } from "../../dashboard/post/actions/postArticle.action";
 import { ZodIssue } from "zod";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 type ErrorMessageKey = "name" | "email" | "password" | "confirm";
 
@@ -14,6 +16,11 @@ export function SignUpForm() {
     undefined | Result | Result<undefined, ZodIssue[]>,
     any
   ] = useFormState(createUser);
+  const router = useRouter();
+
+  useEffect(() => {
+    router.prefetch("/");
+  }, []);
 
   const errorMessageMap: undefined | { [k in ErrorMessageKey]: ZodIssue } =
     isError(state)
@@ -29,8 +36,13 @@ export function SignUpForm() {
         }, {})
       : undefined;
 
+  if (errorMessageMap === undefined && state?.success && state.data) {
+    alert(`${state.data.message}, 로그인 페이지로 이동합니다.`);
+    router.push("/auth/login");
+  }
+
   return (
-    <form action={formAction} method="POST">
+    <form action={formAction}>
       <div className="mb-4">
         <label
           htmlFor="name"
@@ -98,7 +110,6 @@ export function SignUpForm() {
       <div className="mt-6">
         <SubmitButton />
       </div>
-      {/* <p aria-live="polite">{state?.message}</p> */}
     </form>
   );
 }
