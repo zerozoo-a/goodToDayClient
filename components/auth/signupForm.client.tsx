@@ -3,10 +3,11 @@
 import { createUser } from "../../app/auth/signup/actions/createUser";
 
 import { experimental_useFormState as useFormState } from "react-dom";
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import { Result } from "../../app/dashboard/post/actions/postArticle.action";
 import { ZodIssue } from "zod";
 import { useRouter } from "next/navigation";
+import { SubmitButton } from "./submitButton.client";
+import { PoliteMessage } from "./politeMessage";
 
 type ErrorMessageKey = "name" | "email" | "password" | "confirm";
 
@@ -104,32 +105,9 @@ export function SignUpForm() {
         {<PoliteMessage message={errorMessageMap?.confirm?.message} />}
       </div>
       <div className="mt-6">
-        <SubmitButton />
+        <SubmitButton text="회원가입" />
       </div>
     </form>
-  );
-}
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-indigo-700"
-      aria-disabled={pending}
-    >
-      회원가입
-    </button>
-  );
-}
-
-function PoliteMessage({ message }: { message: string | undefined }) {
-  if (undefined) return "";
-  return (
-    <p aria-live="polite" className="text-red-500">
-      {message}
-    </p>
   );
 }
 

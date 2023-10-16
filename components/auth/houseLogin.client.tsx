@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { SubmitButton } from "./submitButton.client";
 
 export default function HouseLogin() {
   // const router = useRouter();
@@ -39,6 +40,10 @@ export default function HouseLogin() {
           className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring focus:ring-indigo-200 focus:outline-none"
         />
         {/* <PoliteMessage message={errorMessageMap?.password?.message} /> */}
+      </div>
+
+      <div className="mt-6">
+        <SubmitButton text="로그인" />
       </div>
     </form>
   );

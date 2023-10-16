@@ -5,7 +5,7 @@ import { FormSchemaObject, SignupForm } from "../../../../schema/signup.form";
 import { Result } from "../../../dashboard/post/actions/postArticle.action";
 
 export async function loginUser(
-  prevState: any,
+  _prevState: any,
   formData: FormData
 ): Promise<Result | Result<undefined, ZodIssue[]>> {
   const resultOfRuntimeCheck = checkData(FormSchemaObject, formData);
