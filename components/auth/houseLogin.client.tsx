@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 
 export default function HouseLogin() {
-  const router = useRouter();
-  router.prefetch("/");
+  // const router = useRouter();
+  // router.prefetch("/");
 
   return (
     <form>

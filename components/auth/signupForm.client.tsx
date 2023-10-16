@@ -16,7 +16,6 @@ export function SignUpForm() {
     any
   ] = useFormState(createUser);
   const router = useRouter();
-  router.prefetch("/");
 
   const errorMessageMap: undefined | { [k in ErrorMessageKey]: ZodIssue } =
     isError(state)
@@ -33,6 +32,7 @@ export function SignUpForm() {
       : undefined;
 
   if (errorMessageMap === undefined && state?.success && state.data) {
+    router.prefetch("/");
     alert(`${state.data.message}, 로그인 페이지로 이동합니다.`);
     router.push("/auth/login");
   }
