@@ -4,19 +4,18 @@
 import { experimental_useFormState as useFormState } from "react-dom";
 import { SubmitButton } from "./submitButton.client";
 import { loginUser } from "../../app/auth/login/actions/loginHouseUser";
-import { getErrorMessageMap, isStateError } from "../../util/auth/isError";
+import { getErrorMessageMap } from "../../util/auth/isError";
 import { PoliteMessage } from "./politeMessage";
+import { Result } from "../../util/types";
 
 type ErrorMessageKey = "email" | "password";
 
 export default function HouseLogin() {
-  // const router = useRouter();
-  // router.prefetch("/");
-  const [state, action] = useFormState(loginUser);
-  console.log(
-    "🚀 ~ file: houseLogin.client.tsx:15 ~ HouseLogin ~ state:",
-    state
-  );
+  const [state, action]: [
+    Result<boolean, { message: string; redirect: string }, any>,
+    any
+  ] = useFormState(loginUser);
+
   const errorMessageMap = getErrorMessageMap<ErrorMessageKey>(state);
 
   return (

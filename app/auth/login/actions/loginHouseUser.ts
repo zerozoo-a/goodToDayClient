@@ -6,6 +6,9 @@ import {
   LoginFormSchemaObject,
 } from "../../../../schema/login.form";
 import { Result } from "../../../../util/types";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+// import { redirect } from "next/dist/server/api-utils";
 
 // import { ZodError, ZodIssue } from "zod";
 // import { FormSchemaObject, SignupForm } from "../../../../schema/signup.form";
@@ -15,7 +18,7 @@ export async function loginUser(_prevState, formData: FormData) {
   const resultOfRuntimeCheck = checkData(LoginFormSchemaObject, formData);
 
   if (resultOfRuntimeCheck instanceof ZodError) {
-    return <Result<undefined, ZodIssue[]>>{
+    return <Result<boolean, undefined, ZodIssue[]>>{
       success: false,
       data: undefined,
       err: resultOfRuntimeCheck.errors,
@@ -35,10 +38,18 @@ export async function loginUser(_prevState, formData: FormData) {
       }),
     }
   );
-  // const token = await dd () ;
-  // set cookie
-  // response
-  // redirect
+  const tokenResult: Result = await response.json();
+  if (tokenResult.success) {
+    const cookieStore = cookies();
+    cookieStore.set("houseToken", tokenResult.data);
+    redirect("/");
+  } else {
+    return {
+      success: false,
+      data: undefined,
+      err: { message: "로그인에 실패했습니다." },
+    };
+  }
 }
 
 function checkData(

@@ -7,7 +7,7 @@ async function getPosts() {
       "Content-Type": "application/json",
     },
   });
-  const result: Result<Post[]> = await response.json();
+  const result: Result<boolean, Post[]> = await response.json();
 
   return result;
 }
