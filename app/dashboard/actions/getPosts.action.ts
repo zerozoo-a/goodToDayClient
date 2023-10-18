@@ -2,6 +2,7 @@ import { Result } from "../../../util/types";
 
 async function getPosts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}board`, {
+    next: { revalidate: 1 },
     method: "GET",
     headers: {
       "Content-Type": "application/json",

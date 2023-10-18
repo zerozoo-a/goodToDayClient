@@ -1,7 +1,7 @@
 "use server";
 
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { redirect } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 import { Result } from "../../../../util/types";
 import { cookies } from "next/headers";
 
@@ -28,7 +28,7 @@ async function postArticle({ title, context }) {
   });
 
   const result: Result = await response.json();
-  redirect(result.data.redirect);
+  redirect("/dashboard", RedirectType.replace);
 }
 
 type PostArticle = typeof postArticle;
