@@ -25,7 +25,7 @@ const posts = ["/dashboard/post"];
 // See "Matching Paths" below to learn more
 export const config = {
   // matcher: ["/auth/:path*", "/dashboard/post"],
-  matcher: ["/auth/login", "/auth/signup", "/dashboard/post"],
+  matcher: auth.concat(posts),
 };
 
 async function checkHouseToken(houseToken: string | undefined) {
