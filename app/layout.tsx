@@ -20,8 +20,10 @@ export default function RootLayout({
   const houseToken = cookieStore.get("houseToken") || undefined;
   const kakaoToken = cookieStore.get("kakaoToken") || undefined;
 
-  const hasToken = houseToken || kakaoToken;
-  const isLogin = hasToken ? false : true;
+  const hasToken =
+    (houseToken && houseToken.value.length > 1) ||
+    (kakaoToken && kakaoToken.value.length > 1);
+  const isLogin = hasToken ? true : false;
 
   return (
     <html lang="kr">
@@ -35,7 +37,7 @@ export default function RootLayout({
               houseToken={houseToken}
               kakaoToken={kakaoToken}
             />
-            <SignUpButton />
+            {!isLogin && <SignUpButton />}
           </Navigator>
         </div>
         {children}

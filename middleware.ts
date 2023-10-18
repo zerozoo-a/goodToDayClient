@@ -7,24 +7,25 @@ import { Result } from "./util/types";
 export async function middleware(request: NextRequest) {
   const cookieStore = cookies();
   const houseToken = cookieStore.get("houseToken");
-  const { pathname } = request.nextUrl;
+  const pathname = request.nextUrl.pathname;
 
-  // 로그인하지 않은 유저가 post로 접근하는 것을 튕겨냄
-  if (pathname === "/dashboard/post" && !houseToken) {
+  const tokenStatus = await checkHouseToken(houseToken?.value);
+
+  if (tokenStatus === undefined && auth.includes(pathname)) return;
+
+  if (tokenStatus === undefined && posts.includes(pathname))
     return NextResponse.redirect(new URL("/auth/login", request.url));
-  } else {
-    const tokenStatus = await checkHouseToken(houseToken?.value);
 
-    // 이미 로그인 된 유저를 홈으로 보냄
-    if (tokenStatus && tokenStatus.success) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
-  }
+  if (tokenStatus && !tokenStatus.success)
+    return NextResponse.redirect(new URL("/", request.url));
 }
 
+const auth = ["/auth/login", "/auth/signup"];
+const posts = ["/dashboard/post"];
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/dashboard/post", "/auth/:path*"],
+  // matcher: ["/auth/:path*", "/dashboard/post"],
+  matcher: ["/auth/login", "/auth/signup", "/dashboard/post"],
 };
 
 async function checkHouseToken(houseToken: string | undefined) {

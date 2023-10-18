@@ -1,17 +1,10 @@
 "use client";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { RefObject, createRef, useState } from "react";
 import type { PostArticle } from "./actions/postArticle.action";
 
-export default function Post({
-  token,
-  postArticle,
-}: {
-  token: RequestCookie;
-  postArticle: PostArticle;
-}) {
+export default function Post({ postArticle }: { postArticle: PostArticle }) {
   const editorRef = createRef<any>();
   const [title, setTitle] = useState<string>("");
   const toolbarItems = [
@@ -27,8 +20,8 @@ export default function Post({
     const context = instance.getHTML();
     if (!validateValues({ title, context })) return;
     try {
-      await postArticle(token, { title, context });
-      alert("글을 작성했습니다.");
+      await postArticle({ title, context });
+      // alert("글을 작성했습니다.");
     } catch {
       alert("글 작성에 실패했습니다.");
     }

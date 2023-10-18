@@ -8,11 +8,6 @@ import {
 import { Result } from "../../../../util/types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-// import { redirect } from "next/dist/server/api-utils";
-
-// import { ZodError, ZodIssue } from "zod";
-// import { FormSchemaObject, SignupForm } from "../../../../schema/signup.form";
-// import { Result } from "../../../dashboard/post/actions/postArticle.action";
 
 export async function loginUser(_prevState, formData: FormData) {
   const resultOfRuntimeCheck = checkData(LoginFormSchemaObject, formData);
@@ -26,7 +21,7 @@ export async function loginUser(_prevState, formData: FormData) {
   }
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER}users/loginHouseUser`,
+    `${process.env.NEXT_PUBLIC_SERVER}auth/loginHouseUser`,
     {
       headers: {
         "Content-Type": "application/json",
