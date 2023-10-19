@@ -19,7 +19,10 @@ export function SignUpForm() {
 
   if (errorMessageMap === undefined && state?.success && state.data) {
     router.prefetch("/");
-    alert(`${state.data.message}, 로그인 페이지로 이동합니다.`);
+    alert(`
+    ${state.data.message}, 
+
+    로그인 페이지로 이동합니다.`);
     router.push("/auth/login");
   }
 
