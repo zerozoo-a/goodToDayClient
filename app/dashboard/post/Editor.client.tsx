@@ -21,7 +21,6 @@ export default function Post({ postArticle }: { postArticle: PostArticle }) {
     if (!validateValues({ title, context })) return;
     try {
       await postArticle({ title, context });
-      // alert("글을 작성했습니다.");
     } catch {
       alert("글 작성에 실패했습니다.");
     }

@@ -1,9 +1,13 @@
 export const GoTo = (
-  { to, title }: { to: string; title: string } = { to: "/", title: "..." }
+  { to, title, classes }: { to: string; title: string; classes: string } = {
+    to: "/",
+    title: "...",
+    classes: "",
+  }
 ) => {
   return (
-    <div>
-      <a href={to}>{title}</a>
-    </div>
+    <a href={to} className={classes}>
+      {title}
+    </a>
   );
 };

@@ -2,39 +2,36 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { Result } from "./util/types";
 import { cookies } from "next/headers";
-import { logoutHouseUser } from "./app/auth/logout/actions/logoutHouseUser";
-// import { logoutHouseUser } from "./app/auth/logout/actions/logoutHouseUser";
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   const cookieStore = cookies();
   const houseToken = cookieStore.get("houseToken");
   const pathname = request.nextUrl.pathname;
-
   const tokenStatus = await checkHouseToken(houseToken?.value);
-  if (tokenStatus === undefined) {
-    return NextResponse.redirect(new URL("/", request.url));
+
+  if (tokenStatus !== undefined && tokenStatus.success === false) {
+    return NextResponse.redirect(new URL("/api/auth", request.url));
   }
 
-  if (tokenStatus.success === false) {
-    return NextResponse.redirect(new URL("/auth/logout", request.url));
-  }
-
-  if (tokenStatus === undefined && auth.includes(pathname)) return;
-
-  if (tokenStatus === undefined && posts.includes(pathname))
+  if (
+    pathname !== "/auth/login" &&
+    pathname !== "/auth/login/" &&
+    tokenStatus === undefined
+  ) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
+  }
 
-  if (tokenStatus && !tokenStatus.success)
-    return NextResponse.redirect(new URL("/", request.url));
+  return;
 }
 
-const auth = ["/auth/login", "/auth/signup"];
+// const auth = ["/auth/login", "/auth/signup"];
+const auth = ["/auth/signup"];
 const posts = ["/dashboard/post"];
 // See "Matching Paths" below to learn more
 export const config = {
   // matcher: ["/auth/:path*", "/dashboard/post"],
-  // matcher: auth.concat(posts),
+  // matcher: posts,
   matcher: ["/auth/login", "/auth/signup", "/dashboard/post"],
 };
 

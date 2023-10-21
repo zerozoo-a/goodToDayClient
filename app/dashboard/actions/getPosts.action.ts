@@ -15,7 +15,9 @@ async function getPosts() {
 
 export { getPosts };
 
-export async function getArticle(id: string) {
+export async function getArticle(
+  id: string
+): Promise<Result<boolean, Article | undefined>> {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER}board/${id}`,
@@ -32,6 +34,15 @@ export async function getArticle(id: string) {
   } catch (err) {
     return { success: false, data: undefined, err };
   }
+}
+
+interface Article {
+  id: number;
+  name: string;
+  title: string;
+  context: string;
+  created_at: string;
+  modified_at: string;
 }
 
 interface Post {
