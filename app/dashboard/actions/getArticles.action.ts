@@ -41,12 +41,20 @@ export async function getArticle(
 
 interface Article {
   id: number;
+  userId: number;
   name: string;
   title: string;
   context: string;
   created_at: string;
   modified_at: string;
 }
+// id: 12,
+// title: 'pagination이 성공했습니다 와!',
+// context: '<p>해피!</p>',
+// created_at: 2023-10-21T14:00:19.000Z,
+// modified_at: 2023-10-21T14:00:19.000Z,
+// name: 'qwe',
+// userId: 12
 
 interface Post {
   id: number;

@@ -1,3 +1,4 @@
+"use server";
 import Article, { preload } from "../../../../components/dashboard/article";
 
 export default async function Page({

@@ -18,7 +18,14 @@ export default async function Article({ id }: { id: string }) {
           <li>작성 일자: {article.data.created_at}</li>
         </ul>
       </div>
-      <div dangerouslySetInnerHTML={{ __html: article.data.context }}></div>
+      <div className="divide-solid" />
+      <div
+        dangerouslySetInnerHTML={{ __html: article.data.context }}
+        className="py-4"
+      />
+      <div>
+        <button>수정하기</button>
+      </div>
     </article>
   );
 }
