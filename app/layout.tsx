@@ -30,8 +30,8 @@ export default function RootLayout({
       <body>
         <div className="font-bold underline">
           <Navigator>
-            <GoTo to={"/"} title="home" />
-            <GoTo to={"/dashboard"} title="게시판" />
+            <GoTo to={"/"} title="home" classes={""} />
+            <GoTo to={"/dashboard/0"} title="게시판" classes={""} />
             <LoginOut
               isLogin={isLogin}
               houseToken={houseToken}

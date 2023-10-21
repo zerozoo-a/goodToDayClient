@@ -18,7 +18,7 @@ async function postArticle({ title, context }) {
     return err;
   }
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}board`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/board`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${houseToken.value}`,
@@ -28,7 +28,7 @@ async function postArticle({ title, context }) {
   });
 
   const result: Result = await response.json();
-  redirect("/dashboard", RedirectType.replace);
+  redirect("/dashboard/0", RedirectType.replace);
 }
 
 type PostArticle = typeof postArticle;
@@ -36,7 +36,7 @@ type PostArticle = typeof postArticle;
 async function validateHouseToken(token: RequestCookie): Promise<boolean> {
   "use server";
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER}auth/validateHouseToken`,
+    `${process.env.NEXT_PUBLIC_SERVER}/auth/validateHouseToken`,
     {
       method: "GET",
       headers: {

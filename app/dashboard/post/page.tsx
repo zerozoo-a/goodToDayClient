@@ -4,7 +4,10 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import dynamic from "next/dynamic";
 import { postArticle } from "./actions/postArticle.action";
 
-const Editor = dynamic(() => import("./editor.client"), { ssr: false });
+const Editor = dynamic(
+  () => import("../../../components/dashboard/editor.client"),
+  { ssr: false }
+);
 export default async function Post() {
   return <Editor postArticle={postArticle} />;
 }

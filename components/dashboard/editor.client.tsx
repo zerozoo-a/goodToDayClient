@@ -2,7 +2,7 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { RefObject, createRef, useState } from "react";
-import type { PostArticle } from "./actions/postArticle.action";
+import type { PostArticle } from "../../app/dashboard/post/actions/postArticle.action";
 
 export default function Post({ postArticle }: { postArticle: PostArticle }) {
   const editorRef = createRef<any>();

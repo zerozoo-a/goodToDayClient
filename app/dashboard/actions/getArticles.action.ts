@@ -1,26 +1,29 @@
 import { Result } from "../../../util/types";
 
-async function getPosts() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}board`, {
-    next: { revalidate: 1 },
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+async function getArticles(page = 0) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER}/board/pages/${page}`,
+    {
+      next: { revalidate: 1 },
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   const result: Result<boolean, Post[]> = await response.json();
 
   return result;
 }
 
-export { getPosts };
+export { getArticles };
 
 export async function getArticle(
   id: string
 ): Promise<Result<boolean, Article | undefined>> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER}board/${id}`,
+      `${process.env.NEXT_PUBLIC_SERVER}/board/${id}`,
       {
         method: "GET",
         cache: "default",
@@ -52,4 +55,5 @@ interface Post {
   created_at: string;
   modified_at: string;
   userId: number;
+  total_articles: number;
 }

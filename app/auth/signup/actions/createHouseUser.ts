@@ -19,7 +19,7 @@ export async function createUser(
   }
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER}auth/createHouseUser`,
+    `${process.env.NEXT_PUBLIC_SERVER}/auth/createHouseUser`,
     {
       headers: {
         "Content-Type": "application/json",

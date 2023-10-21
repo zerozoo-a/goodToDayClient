@@ -1,5 +1,5 @@
 "use server";
-import { getArticle } from "../../app/dashboard/actions/getPosts.action";
+import { getArticle } from "../../app/dashboard/actions/getArticles.action";
 
 export const preload = (id: string) => {
   void getArticle(id);

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const GoTo = (
   { to, title, classes }: { to: string; title: string; classes: string } = {
     to: "/",
@@ -6,8 +8,8 @@ export const GoTo = (
   }
 ) => {
   return (
-    <a href={to} className={classes}>
+    <Link href={to} className={classes}>
       {title}
-    </a>
+    </Link>
   );
 };

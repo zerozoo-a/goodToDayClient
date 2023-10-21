@@ -21,7 +21,7 @@ export async function loginUser(_prevState, formData: FormData) {
   }
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER}auth/loginHouseUser`,
+    `${process.env.NEXT_PUBLIC_SERVER}/auth/loginHouseUser`,
     {
       headers: {
         "Content-Type": "application/json",
