@@ -6,14 +6,14 @@ export default async function Page() {
   return (
     <div>
       <div className="text-2xl font-bold mb-4">this is dash board page</div>
-      <div className="bg-white rounded-lg shadow-md p-4">
+      <div className="bg-white rounded-lg shadow-md">
         <ul>
           {posts.data.map((post, i) => (
             <li
               key={`${post}_${i}`}
-              className="mb-4 p-4 border border-gray-200 rounded"
+              className="border border-gray-200 rounded mb-4"
             >
-              <a href={`/dashboard/post/${post.id}`}>
+              <a href={`/dashboard/post/${post.id}`} className="block p-2">
                 <div>
                   <h4 className="text-lg font-semibold mb-2">
                     제목: {post.title}

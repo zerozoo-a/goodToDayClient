@@ -1,11 +1,10 @@
-import dynamic from "next/dynamic";
+"use server";
 import { getArticle } from "../../app/dashboard/actions/getPosts.action";
 
 export const preload = (id: string) => {
   void getArticle(id);
 };
 
-const Viewer = dynamic(() => import("./articleContext.client"), { ssr: false });
 export default async function Article({ id }: { id: string }) {
   const article = await getArticle(id);
   if (!article.data) return "err";
@@ -19,7 +18,7 @@ export default async function Article({ id }: { id: string }) {
           <li>작성 일자: {article.data.created_at}</li>
         </ul>
       </div>
-      <Viewer context={article.data.context} />
+      <div dangerouslySetInnerHTML={{ __html: article.data.context }}></div>
     </article>
   );
 }
