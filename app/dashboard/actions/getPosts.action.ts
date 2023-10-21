@@ -15,6 +15,25 @@ async function getPosts() {
 
 export { getPosts };
 
+export async function getArticle(id: string) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER}board/${id}`,
+      {
+        method: "GET",
+        cache: "default",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    return { success: true, data, err: undefined };
+  } catch (err) {
+    return { success: false, data: undefined, err };
+  }
+}
+
 interface Post {
   id: number;
   title: string;

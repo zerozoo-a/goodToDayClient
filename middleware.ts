@@ -1,7 +1,9 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { Result } from "./util/types";
+import { cookies } from "next/headers";
+import { logoutHouseUser } from "./app/auth/logout/actions/logoutHouseUser";
+// import { logoutHouseUser } from "./app/auth/logout/actions/logoutHouseUser";
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
@@ -10,6 +12,13 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const tokenStatus = await checkHouseToken(houseToken?.value);
+  if (tokenStatus === undefined) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  if (tokenStatus.success === false) {
+    return NextResponse.redirect(new URL("/auth/logout", request.url));
+  }
 
   if (tokenStatus === undefined && auth.includes(pathname)) return;
 
@@ -25,7 +34,8 @@ const posts = ["/dashboard/post"];
 // See "Matching Paths" below to learn more
 export const config = {
   // matcher: ["/auth/:path*", "/dashboard/post"],
-  matcher: auth.concat(posts),
+  // matcher: auth.concat(posts),
+  matcher: ["/auth/login", "/auth/signup", "/dashboard/post"],
 };
 
 async function checkHouseToken(houseToken: string | undefined) {
