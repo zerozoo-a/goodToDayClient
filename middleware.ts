@@ -9,8 +9,8 @@ export async function middleware(request: NextRequest) {
   const houseToken = cookieStore.get("houseToken");
   const pathname = request.nextUrl.pathname;
 
-  if (pathname === "/dashboard")
-    return NextResponse.redirect(new URL("/dashboard/0", request.url));
+  if (pathname === "/dashboard" || pathname === "/dashboard/0")
+    return NextResponse.redirect(new URL("/dashboard/1", request.url));
 
   const tokenStatus = await checkHouseToken(houseToken?.value);
 
@@ -34,7 +34,13 @@ const auth = ["/auth/login", "/auth/signup"];
 const posts = ["/dashboard/post"];
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/auth/login", "/auth/signup", "/dashboard/post", "/dashboard"],
+  matcher: [
+    "/auth/login",
+    "/auth/signup",
+    "/dashboard/post",
+    "/dashboard",
+    "/dashboard/0",
+  ],
 };
 
 async function checkHouseToken(houseToken: string | undefined) {

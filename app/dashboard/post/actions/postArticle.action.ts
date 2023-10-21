@@ -28,7 +28,7 @@ async function postArticle({ title, context }) {
   });
 
   const result: Result = await response.json();
-  redirect("/dashboard/0", RedirectType.replace);
+  redirect("/dashboard/1", RedirectType.replace);
 }
 
 type PostArticle = typeof postArticle;
