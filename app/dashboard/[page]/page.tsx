@@ -8,43 +8,51 @@ export default async function Page({
 }: {
   params: { page: string };
 }) {
-  const posts = await getArticles(+page);
+  const articles = await getArticles(+page);
+  const isArticlesAvailable = articles.data.length > 0;
   return (
     <div>
       <div className="text-2xl font-bold mb-4">this is dash board articles</div>
       <div className="bg-white rounded-lg shadow-md mx-4">
         <ul>
-          {posts.data.map((post, i) => (
-            <li
-              key={`${post}_${i}`}
-              className="border border-gray-200 rounded mb-4"
-            >
-              <Link
-                href={`/dashboard/article/${post.id}`}
-                className="block p-2"
+          {isArticlesAvailable ? (
+            articles.data.map((article, i) => (
+              <li
+                key={`${article}_${i}`}
+                className="border border-gray-200 rounded mb-4"
               >
-                <div>
-                  <h4 className="text-lg font-semibold mb-2">
-                    제목: {post.title}
-                  </h4>
-                  <div className="text-sm text-gray-600">
-                    생성일: {post.created_at}
+                <Link
+                  href={`/dashboard/article/${article.id}`}
+                  className="block p-2"
+                >
+                  <div>
+                    <h4 className="text-lg font-semibold mb-2">
+                      {article.title}
+                    </h4>
+                    <div className="text-sm text-gray-600">
+                      생성일: {article.created_at}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      작성자: {article.name}
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-600">
-                    작성자: {post.userId}
-                  </div>
-                </div>
-              </Link>
-            </li>
-          ))}
+                </Link>
+              </li>
+            ))
+          ) : (
+            <div>게시글이 없습니다.</div>
+          )}
         </ul>
       </div>
-      <Pagination
-        totalArticles={+posts.data[0].total_articles}
-        nowPage={+page}
-      />
+
+      {isArticlesAvailable ? (
+        <Pagination
+          totalArticles={+articles.data[0].total_articles}
+          nowPage={+page}
+        />
+      ) : undefined}
       <GoTo
-        to={"/dashboard/post"}
+        to={"/dashboard/article"}
         title="글쓰기"
         classes="mt-4 block bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 text-center m-4"
       />

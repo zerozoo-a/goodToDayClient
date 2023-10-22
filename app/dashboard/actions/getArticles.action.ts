@@ -12,7 +12,7 @@ async function getArticles(page = 0) {
       },
     }
   );
-  const result: Result<boolean, Post[]> = await response.json();
+  const result: Result<boolean, Articles[]> = await response.json();
 
   return result;
 }
@@ -55,7 +55,7 @@ interface Article {
   modified_at: string;
   isArticleOwner: boolean;
 }
-interface Post {
+interface Articles {
   id: number;
   title: string;
   context: string;
@@ -63,4 +63,5 @@ interface Post {
   modified_at: string;
   userId: number;
   total_articles: number;
+  name: string;
 }

@@ -7,7 +7,6 @@ export const preload = (id: string) => {
 
 export default async function Article({ id }: { id: string }) {
   const article = await getArticle(id);
-  console.log("🚀 ~ file: article.tsx:10 ~ Article ~ article:", article);
   if (!article.data) return "err";
   return (
     <article className="bg-white shadow-md p-4 rounded-lg">
