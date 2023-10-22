@@ -11,7 +11,7 @@ export default async function Page({
   const posts = await getArticles(+page);
   return (
     <div>
-      <div className="text-2xl font-bold mb-4">this is dash board page</div>
+      <div className="text-2xl font-bold mb-4">this is dash board articles</div>
       <div className="bg-white rounded-lg shadow-md mx-4">
         <ul>
           {posts.data.map((post, i) => (
@@ -19,7 +19,10 @@ export default async function Page({
               key={`${post}_${i}`}
               className="border border-gray-200 rounded mb-4"
             >
-              <Link href={`/dashboard/post/${post.id}`} className="block p-2">
+              <Link
+                href={`/dashboard/article/${post.id}`}
+                className="block p-2"
+              >
                 <div>
                   <h4 className="text-lg font-semibold mb-2">
                     제목: {post.title}
