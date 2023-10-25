@@ -3,8 +3,21 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { RefObject, createRef, useState } from "react";
 import type { PostArticle } from "../../app/dashboard/article/actions/postArticle.action";
+import { Result } from "../../util/types";
 
-export default function Post({ postArticle }: { postArticle: PostArticle }) {
+type RequestArticle = ({
+  title,
+  context,
+}: {
+  title: any;
+  context: any;
+}) => Promise<Result<boolean, any, any>>;
+
+export default function Post({ postArticle }: { postArticle: RequestArticle }) {
+  return <TextEditor cb={postArticle} />;
+}
+
+function TextEditor({ cb }: { cb: RequestArticle }) {
   const editorRef = createRef<any>();
   const [title, setTitle] = useState<string>("");
   const toolbarItems = [
@@ -15,14 +28,24 @@ export default function Post({ postArticle }: { postArticle: PostArticle }) {
     ["scrollSync"],
   ];
 
-  async function handleOnClick(editorRef: RefObject<any>, title: string) {
+  async function handleOnClick(
+    editorRef: RefObject<any>,
+    title: string,
+    cb: ({
+      title,
+      context,
+    }: {
+      title: string;
+      context: string;
+    }) => Promise<Result<boolean, any, any>>
+  ) {
     const instance = editorRef.current.getInstance();
     const context = instance.getHTML();
     if (!validateValues({ title, context })) return;
     try {
-      await postArticle({ title, context });
+      await cb({ title, context });
     } catch {
-      alert("글 작성에 실패했습니다.");
+      alert("실패했습니다.");
     }
   }
 
@@ -67,7 +90,9 @@ export default function Post({ postArticle }: { postArticle: PostArticle }) {
         toolbarItems={toolbarItems}
         initialValue=" "
       />
-      <button onClick={() => handleOnClick(editorRef, title)}>작성하기</button>
+      <button onClick={() => handleOnClick(editorRef, title, cb)}>
+        작성하기
+      </button>
     </div>
   );
 }

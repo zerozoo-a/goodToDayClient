@@ -1,4 +1,5 @@
 "use server";
+import Link from "next/link";
 import { getArticle } from "../../app/dashboard/actions/getArticles.action";
 
 export const preload = (id: string) => {
@@ -25,9 +26,14 @@ export default async function Article({ id }: { id: string }) {
       />
       {article.data.isArticleOwner ? (
         <div className="mt-4">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+          <Link
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+            href={{
+              pathname: `/dashboard/article/${id}`,
+            }}
+          >
             수정하기
-          </button>
+          </Link>
         </div>
       ) : undefined}
     </article>
